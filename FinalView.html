@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta id="dynamic-viewport" name="viewport" content="width=device-width, initial-scale=0.5">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <style>
+            body {
+                font-family: 'Helvetica', 'Arial', sans-serif;
+                background-color: #E2DCD7;
+                margin: 0;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td,
+            th {
+                
+                text-align: center;
+                
+            }
+
+            th {
+                background-color: #F3CDB6;
+                color: #583018;
+                padding: 20px;
+            }
+
+            td {
+                background-color: white;
+                border-bottom: 0.8px solid #E2DCD7;
+                padding: 20px;
+              
+                
+            }
+
+            .button {
+                background-color: #F37021; 
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin-top: 50px;
+                cursor: pointer;
+                width: 75%;
+                border-radius: 4px;
+                font-weight: bold;
+               
+            }
+
+            .button_container {
+                display: flex;
+                justify-content: center;
+                
+
+
+            }
+
+            .row_name {
+                font-weight: bold;
+                text-align: left;
+            }
+
+            .row_value {
+                color: gray;
+            }
+
+         
+            
+
+
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+     
+                <th colspan="2">Pago realizado con éxito</th>
+            </tr>
+        
+            <tr>
+                <td class="row_name">Orden</td>
+                <td class="row_value">FL43512</td>
+            </tr>
+            <tr>
+                <td class="row_name">Tarjeta</td>
+                <td class="row_value">4556-****-7890</td>
+            </tr>
+            <tr>
+                <td class="row_name">Monto</td>
+                <td class="row_value">S/. 2944.80</td>
+            </tr>
+            <tr>
+                <td class="row_name">Fecha</td>
+                <td class="row_value">2023-11-27 16:17:01</td>
+            </tr>
+            <tr>
+               <td class="row_name">Mensaje</td>
+               <td class="row_value">Aquí va el mensaje</td>
+           </tr>
+        </table>
+        <div class="button_container">
+            <button id="aceptation-button" class="button">Aceptar</button>
+        </div>
+       
+
+        <script>
+            const searchParams = new URLSearchParams(window.location.search);
+   
+   
+            /*Colocar el id del boton al que se va a escuchar*/
+            document.getElementById("aceptation-button").addEventListener('click', function(){
+                if (window.webkit) {
+                        window.webkit.messageHandlers.callbackHandler.postMessage("ios");
+                    } else {
+                        console.log("android");
+                    }
+            })
+
+               
+        function setViewportMeta(platform) {
+            const viewportMeta = document.getElementById("dynamic-viewport");
+
+        
+            if (platform === "ios") {
+                viewportMeta.setAttribute("content", "width=device-width, initial-scale=0.75"); 
+            } else {
+                viewportMeta.setAttribute("content", "width=device-width, initial-scale=0.40"); 
+            }
+        }
+
+        
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if (window.webkit) {
+                setViewportMeta("ios");
+            } else {
+                setViewportMeta("android"); 
+            }
+        });
+           
+       </script>
+
+    </body>
+</html>
