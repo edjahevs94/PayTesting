@@ -1,87 +1,141 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta id="dynamic-viewport" name="viewport" content="width=device-width, initial-scale=0.4">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <style>
-            body {
-                font-family: 'Helvetica', 'Arial', sans-serif;
+<head>
+    <meta id="dynamic-viewport" name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <style>
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
                 background-color: #E2DCD7;
                 margin: 0;
-            }
+        }
 
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-            td,
-            th {
-                
-                text-align: center;
-                
-            }
-
-            th {
-                background-color: #F3CDB6;
-                color: #583018;
-                padding: 20px;
-            }
-
-            td {
-                background-color: white;
-                border-bottom: 0.8px solid #E2DCD7;
-                padding: 20px;
-              
-                
-            }
-
-            .button {
-                background-color: #F37021; 
-                border: none;
-                color: white;
-                padding: 15px 32px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin-top: 50px;
-                cursor: pointer;
-                width: 75%;
-                border-radius: 4px;
-                font-weight: bold;
-               
-            }
-
-            .button_container {
-                display: flex;
-                justify-content: center;
-                
-
-
-            }
-
-            .row_name {
-                font-weight: bold;
-                text-align: left;
-            }
-
-            .row_value {
-                color: gray;
-            }
-
-         
+        /*=====================SE AÑADIERON LOS SIGUIENTES ESTILOS PARA EL SPINNER =====================*/
+        
+        /*ESTE ES EL CONTENEDOR DEL MENSAJE DE DETALLLE */
+        .content {
             
+            display: none; /* Ocultar contenido inicialmente */
+        }
 
+        /*ESTE ES EL CONTENEDOR DEL SPINNER */
 
-        </style>
-    </head>
-    <body>
+        .spinner-title {
+            font-size: 24px;
+            margin-bottom: 20px; 
+        }
+
+        .spinner-container {
+           
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40%;
+        }
+
+        
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #F37021;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+
+        .loading-text {
+
+            margin-top: 40px;
+            padding-left: 40px;
+            padding-right: 30px;
+            font-size: 18px;
+            color: #000000;
+        }
+
+        .countdown {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #000000;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+         /* ======================================================================== */
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td, th {
+            text-align: center;
+        }
+
+        th {
+            background-color: #F3CDB6;
+            color: #583018;
+            padding: 20px;
+        }
+
+        td {
+            background-color: white;
+            border-bottom: 0.8px solid #E2DCD7;
+            padding: 20px;
+        }
+
+        .button {
+            background-color: #F37021; 
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 50px;
+            cursor: pointer;
+            width: 75%;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .button_container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .row_name {
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .row_value {
+            color: gray;
+            text-align: right; 
+            text-align: justify; 
+        }
+    </style>
+</head>
+<body>
+        <!--===============SE AÑADIO EL SPINNER EN LA INTERFAZ===================-->
+     <div class="spinner-container">
+        <h1 class="spinner-title">Procesando Pago</h1>
+        <div class="spinner"></div>
+        <div class="countdown"><b>Tiempo restante: </b><span id="countdown"></span> segundos</div>
+        <div class="loading-text"><b>Importante: </b>Puede que el cambio no se vea reflejado en tu estado de cuenta, hasta dentro de unos minutos despues de la transacción.</div>
+        
+     </div>
+      <!--======================================================================-->
+
+       <!--==================SE METIO LA TABLA EN UN DIV class content=============-->
+    <div class="content">
         <table>
             <tr>
-     
                 <th colspan="2">Pago realizado con éxito</th>
             </tr>
-        
             <tr>
                 <td class="row_name">Orden</td>
                 <td class="row_value">FL43512</td>
@@ -99,33 +153,22 @@
                 <td class="row_value">2023-11-27 16:17:01</td>
             </tr>
             <tr>
-               <td class="row_name">Mensaje</td>
-               <td class="row_value">Aquí va el mensaje</td>
-           </tr>
+                <td class="row_name">Mensaje</td>
+                <td class="row_value">Aquí va el mensaje</td>
+            </tr>
         </table>
         <div class="button_container">
             <button id="aceptation-button" class="button">Aceptar</button>
         </div>
-       
+    </div>
 
-        <script>
-            const searchParams = new URLSearchParams(window.location.search);
-   
-   
-            /*Colocar el id del boton al que se va a escuchar*/
-            document.getElementById("aceptation-button").addEventListener('click', function(){
-                if (window.webkit) {
-                        window.webkit.messageHandlers.callbackHandler.postMessage("ios");
-                    } else {
-                        console.log("android");
-                    }
-            })
-
-               
+    <script>
+        //===========VARIABLE QUE SE ENCARGA DEL TIEMPO DE CARGA============
+        var loadingTime = 10 //SEGUNDOS QUE ESTARA PRESENTE EL SPINNER
+        //==================================================================
+        
         function setViewportMeta(platform) {
             const viewportMeta = document.getElementById("dynamic-viewport");
-
-        
             if (platform === "ios") {
                 viewportMeta.setAttribute("content", "width=device-width, initial-scale=0.75"); 
             } else {
@@ -133,16 +176,37 @@
             }
         }
 
-        
         window.addEventListener('DOMContentLoaded', (event) => {
             if (window.webkit) {
                 setViewportMeta("ios");
             } else {
                 setViewportMeta("android"); 
             }
+            //==================FUNCIONALIDAD DEL SPINNER====================
+            let countdown = loadingTime;
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = countdown;
+            const interval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    document.querySelector('.spinner-container').style.display = 'none';
+                    document.querySelector('.content').style.display = 'block';
+                }
+            }, 1000); 
+            //=================================================================
         });
-           
-       </script>
 
-    </body>
+       
+        document.getElementById("aceptation-button").addEventListener('click', function(){
+            if (window.webkit) {
+                window.webkit.messageHandlers.callbackHandler.postMessage("ios");
+            } else {
+                console.log("android");
+            }
+        });
+    </script>
+</body>
 </html>
